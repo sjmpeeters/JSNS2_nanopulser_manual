@@ -4,31 +4,60 @@
 % System design
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+In this section, we discuss the overall layout of the system, the electronic and mechanical design and the software.
+
 %%%%%%%%%%
 % Overall design  
 %%%%%%%%%%
 
 \subsection*{Overall design}
 
+The design is based on the initial proposal by Matsubara-san, with some modifications to ease installation and improve the coverage of the light on the PMT~array.
+
+\subsubsection*{System configuration}
 %
 % System configuration
 %
 
-The design is based on the initial proposal by Matsubara-san, with some modifications to ease installation and improve the coverage of the light on the PMT~array.
+Figure~\ref{figure:controlbox} shows the overall layout of the system. The LEDs are mounted on next to the PMTs, on the boards holding them. The system consists of six `branches': a cable string with a data and power line that at certain intervals holds a `nanopulser head': an electronics board with digital logic and an ultra-fast LED pulser. Each string has either two or three nanopulser heads. In total, there are twelve nanopulser heads with a 420~nm LED and two nanopulser heads with a 355~nm LED (the 355~nm light will be absorbed almost immediately and emitted randomly in all directions as a longer wavelength). Each branch is terminated with a connector containing a 120~$\Omega$ resistor on the data line. 
 
-\missing[inline]{Furuta-san: picture of LED mounting board}
-\missing[inline]{Furuta-san: coordinates of LEDs and associated PMT IDs (if available?)}
-\missing[inline]{SJMP: Wavelength spectra for 420~nm and 355~nm LEDs}
+The cable exit the experiment through four flanges. The cables, made out of (expensive) teflon coated cables are then connected to a junction box, where they connected to (cheap) 15~m long ethernet cables. These cables are connected to the nanopulser control box, located in the DAQ racks. The controller box talks to the DAQ via the network (ssh to the raspberry pi inside the controller box). The junction box is grounded and a ground cable connects to the controller box as well. The controller box also provides a trigger signal in-sync with the optical pulse. There are programmable delays that control the timing between the optical pulse and the trigger pulse for each of the pulserheads. 
 
 \begin{figure}
 \begin{center}	
   \includegraphics[width=0.75\linewidth]{figures/JSNS2_led_system_overview.pdf}
-  \caption{A schematic overview of the nanopulser optical calibration system. The (two) purple points indicate the position of the nanopulser heads (LED driver boards) with a 355~nm LED, the (twelve) blue points indicate nanopulser heads with a 420~nm LED.}
+  \caption{A schematic overview of the nanopulser optical calibration system. The (two) purple points indicate the position of the nanopulser heads (LED driver boards) with a 355~nm LED, the (twelve) blue points indicate nanopulser heads with a 420~nm LED. All LEDs point inwards. The numbers B1-B6 indicated the different branches. IV is the Inner Veto volume and ID is the Inner Detector volume.}
   \label{figure:controlbox}
 \end{center}
 \end{figure}
 
-\subsubsection*{System configuration}
+Table~\ref{table:cable_configuration} shows the overall configuration of the branches, as well as the branch and the pulserhead IDs.
+
+
+\begin{table}[h!]
+  \begin{center}
+    \caption{Configuration of the \jsns nanopulser optical calibration system, up to the junction box.}
+    \label{table:cable_configuration}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c} 
+	\hline
+	 &  & Cable  & \multicolumn{2}{c|}{Pulserhead} &  Cable & \multicolumn{2}{c|}{Pulserhead} &  Cable & \multicolumn{2}{c|}{Pulserhead}\\ \cline{4-5} \cline{7-8} \cline{10-11}
+	Branch & Flange & length (m) &  ID & $\lambda_{\mathrm{LED}}$ (nm) & length (m) &  ID & $\lambda_{\mathrm{LED}}$ (nm) & length (m) &  ID & $\lambda_{\mathrm{LED}}$ (nm) \\ \hline
+	1 & 2 & 5.5   &  1 & 420 & 2.2 & 2 & 355 & 2.2 & 3 & 420 \\ 
+	2 & 2 & 4.5   &  4 & 420 & 3.0 & 5 & 420 & & & \\ 
+	3 & 2 & 9.0   &  6 & 420 & 3.0 & 7 & 420 & & & \\ 
+	4 & 2 & 13.5 &  8 & 420 & 3.0 & 9 & 420 & & & \\ 
+	5 & 2 & 9.0   & 10 & 420 & 3.0 & 11 & 420 & & & \\ 
+	6 & 2 & 10    & 12 & 420 & 2.2 & 13 & 355 & 2.2 & 14 & 420 \\
+	\hline
+    \end{tabular}
+  \end{center}
+\end{table}
+
+\missing[inline]{Furuta-san: picture of LED mounting board}
+\missing[inline]{Furuta-san: coordinates of LEDs and associated PMT IDs (if available?)}
+\missing[inline]{Hino-san: picture of cable flange design}
+\missing[inline]{SJMP: Wavelength spectra for 420~nm and 355~nm LEDs}
+\missing[inline]{SJMP: Angular distribution for 420~nm and 355~nm LEDs}
 
 %
 % System configuration
@@ -47,6 +76,9 @@ The design is based on the initial proposal by Matsubara-san, with some modifica
   \includegraphics[width=1.0\linewidth]{figures/pulserhead.jpg}
   \caption{Photo of the a nanopulser head, outside of its acrylic housing, with the main components indicated.}
   \label{figure:pulserhead}
+  \includegraphics[width=0.75\linewidth]{figures/PulserTube2.jpg}
+  \caption{Rendered drawing of the acrylic housing, with an O-ring (black in this image, but white in reality).}
+  \label{figure:pulserhead_housing}
 \end{center}
 \end{figure}
 
@@ -69,7 +101,6 @@ The program PICkit3.exe is started by double-clicking (make sure the PICkit3 dev
 
 If this was successful, load a hex file by clicking `Import Hex' from the `File' menu. Next, click `Write'. Again a green progress bar should appear to show the progress. Wait until the process has been completed. After this, the PIC chip has been programmed and can be disconnected from the power supply and the PICkit3 device.
 
-
 \begin{figure}
 \begin{center}	
   \includegraphics[width=1.0\linewidth]{figures/pulserhead_programming.jpg}
@@ -77,6 +108,19 @@ If this was successful, load a hex file by clicking `Import Hex' from the `File'
   \label{figure:pulserhead_programming}
 \end{center}
 \end{figure}
+
+The perfomance of the nanopulser heads was documented on github\cite{GITHUB_TEST}, and is summarised in Figure~\ref{figure:pulserhead_output}.
+
+\begin{figure}
+\begin{center}	
+  \includegraphics[width=0.48\linewidth]{figures/PhotonCounts420nm.pdf}
+  \includegraphics[width=0.48\linewidth]{figures/PhotonCounts355nm.pdf}
+  \caption{The optical output of the pulserheads with 420~nm LEDs (left) and 355~nm LEDs (right). The x-axis is the digital setting used for the measurements. Most of the range is observed with a calibrated optical power meter. At the low end, however, this device was not sensitive enough and a careful extrapolation based on measurement using a PMT is shown. T}
+  \label{figure:pulserhead_output}
+\end{center}
+\end{figure}
+
+\missing[inline]{SJMP: insert pressure test results}
 
 %%%%%%%%%%
 % Nanopulser control box
@@ -87,11 +131,12 @@ If this was successful, load a hex file by clicking `Import Hex' from the `File'
 \begin{figure}
 \begin{center}	
   \includegraphics[width=0.75\linewidth]{figures/controlbox.jpg}
-  \caption{Photo of the controlbox during commissioning at the University of Sussex, with the main components indicated.}
+  \caption{Photo of the controlbox during commissioning at the University of Sussex, with the main components indicated. Note that all the fuses and connections can be accessed from the outside.}
   \label{figure:controlbox}
 \end{center}
 \end{figure}
-\fix[inline]{RW,SJMP: add details about the voltages (9 V, 7 V, tbc, which is which?)}
+\fix[inline]{RW,SJMP: add details about the voltages (9 V, 24 V, tbc, which is which?)}
+\fix[inline]{RW,SJMP: check control lights and add information on meaning.}
 
 One symptom of a blown fuse can be that  the pulser does communicate but either does not produce light, or produces a wide pulse (of the order of 100~ns).
 
@@ -102,6 +147,8 @@ One symptom of a blown fuse can be that  the pulser does communicate but either 
 
 
 The ethernet cables should {\bf never} be unplugged from the box, while the power is on, as the power for both the digital electronics, as well as for the pulser circuits runs through them. Accidental hot-swapping can result in one of the fuses blowing. 
+
+\missing[inline]{SJMP: insert cable design, aging results}
 
 \subsubsection*{Junction box}
 
@@ -132,4 +179,18 @@ At the final installation, the cables should be wrapped with a tie wrap inside t
 
 \subsection*{Control software}
 
-The software is kept in a central github repository\cite{GITHUB_SOFT}.
+The software is kept in a  github repository\cite{GITHUB_SOFT}.
+(An older, depricated, version with documentation is also kept in a different github repository\cite{GITHUB_TEST}, for reference only).
+ 
+A raspberry pi computer, which runs the control software, is situated within the control box. To operate the box you need to ssh into the raspberry pi using \texttt{ssh pi@<IP address>}. The MAC address of the raspberry pi ethernet port is \texttt{b8:27:eb:ef:45:ee}.
+
+The control software for the driver board are located in the folder: \texttt{/home/pi/JSNS2PulserControl/ControlSoftware/}.
+The script to control the driver boards is: \texttt{\textbf{test\_run.py}}.
+It takes the following arguments:\\
+\newline
+\texttt{\textbf{-c}} - The pulserhead ID to pulse \newline
+\texttt{\textbf{-p}} - The pulse height for the driver board, this controls the intensity of each LED pulse. (Ranges from 0 to 16384)\newline
+\texttt{\textbf{-d}} - The delay between pulses in milliseconds \newline
+\texttt{\textbf{-n}} - Number of pulses. The number of pulses must be a multiple of 1000, up to 65,025 \fix{SJMP: check n pulses}\newline
+\newline
+All arguments are required for this example scripts. (Note that continuous running is not possible for this system, but it is in the library. Also, the trigger and fibre delays are set to default values in this script.) The python scripts making up the control software contain more information on the possible commands.
