@@ -1,8 +1,8 @@
 % !TeX root = 00main.tex
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % System design
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In this section, we discuss the overall layout of the system, the electronic and mechanical design and the software.
 
@@ -135,23 +135,19 @@ The perfomance of the nanopulser heads was documented on github\cite{GITHUB_TEST
   \label{figure:controlbox}
 \end{center}
 \end{figure}
-\fix[inline]{RW,SJMP: add details about the voltages (9 V, 24 V, tbc, which is which?)}
 \fix[inline]{RW,SJMP: check control lights and add information on meaning.}
 
 One symptom of a blown fuse can be that  the pulser does communicate but either does not produce light, or produces a wide pulse (of the order of 100~ns).
 
-\missing[inline]{RW: details about the delay settings}
 \missing[inline]{RW: detailed schematic of the control box}
 
 \subsection*{Cable design}
-
 
 The ethernet cables should {\bf never} be unplugged from the box, while the power is on, as the power for both the digital electronics, as well as for the pulser circuits runs through them. Accidental hot-swapping can result in one of the fuses blowing. 
 
 \missing[inline]{SJMP: insert cable design, aging results}
 
-\subsubsection*{Junction box}
-
+\subsection*{Junction box}
 
 \begin{figure}
 \begin{center}	
@@ -160,8 +156,6 @@ The ethernet cables should {\bf never} be unplugged from the box, while the powe
   \label{figure:junction_box}
 \end{center}
 \end{figure}
-
-
 
 \begin{figure}
 \begin{center}	
@@ -172,6 +166,9 @@ The ethernet cables should {\bf never} be unplugged from the box, while the powe
 \end{figure}
 
 At the final installation, the cables should be wrapped with a tie wrap inside the junction box, to avoid damage to the connection by accidentally pull the cables. Not that the (longer) ground cable also needs to be connected to the junction box chassis (see Figure~\ref{figure:junction_box}).
+
+\subsection*{Trigger delay}
+When the slave board receives a `run' command, it outputs a (trigger) pulse, which is sent back to the control board. The time it takes to receive by the control board depends on the cable length. This pulse is internally delayed on the slave board before triggering the LED driver circuit. The delay is preset using two delay lines of step size 5~ns (called `trigger delay') and 0.25~ns (called `fibre delay'). By matching the total delay to the cable length, the trigger pulse received at the control box (or beyond) can be made co-incident with the light pulse. The number of programmable steps is 255 for each delay line. Thus the maximum delay is 1,338.72~ns (1275~ns plus 63.75~ns).
 
 %%%%%%%%%%
 % Nanopulser control  software
