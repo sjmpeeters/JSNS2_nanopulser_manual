@@ -14,19 +14,19 @@ The system was then shipped to Japan and tested again for functionality at the \
 
 \begin{table}[h!]
   \begin{center}
-    \caption{Results of the commissioning at the University of Sussex. The measurements are only relative: settings indicated are for which the trigger pulser and the light pulse were observed at the same time, using the specific test set-up at Sussex. The amplitude was as measured with a Hamatsu mini-PMT with mylar filter using the maximum light output setting. Note that the quantum efficiency for the UV LEDs, pulserheads 2 and 13, is much lower.}
+    \caption{Results of the commissioning at the University of Sussex. The measurements are only relative: settings indicated are for which the trigger pulser and the light pulse were observed at the same time, using the specific test set-up at Sussex. The amplitude was as measured with a Hamatsu mini-PMT with mylar filter using the maximum light output setting. Note that the PMT's quantum efficiency for the UV LEDs, pulserheads 2 and 13, is much lower.}
     \label{table:sussex_commissioning}
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|} 
 	\hline
 	 & \multicolumn{4}{c|}{LED1} & \multicolumn{4}{c|}{LED2} & \multicolumn{4}{c|}{LED3} \\
 	\cline{2-13}
-		        & Pulser & Trigger  & Fibre  & Amp.
-		        & Pulser & Trigger  & Fibre  & Amp.
-		        & Pulser & Trigger  & Fibre  & Amp. \\
-	              & head    & delay & length & (V) 
-			 & head    & delay & length & (V) 
-                    & head    & delay & length & (V) \\
-	Branch    & & & delay & & & & delay & & & & delay & \\
+		        & Pulser & Coarse   & Fine   & Amp.
+		        & Pulser & Coarse   & Fine   & Amp.
+		        & Pulser & Coarse   & Fine   & Amp. \\
+	              & head    & trigger & trigger & (V) 
+			 & head    & trigger & trigger & (V) 
+                    & head    & trigger & trigger & (V) \\
+	Branch    & & delay & delay & & & delay & delay & & & delay & delay & \\
 	             & & (ns) & (ns) & & & (ns) & (ns) & & & (ns) & (ns) & \\
        \hline 
 	1 & 1 & 810 & 21 & 2.7 & 2 & 830 & 18 & 1.1 & 3 & 815 & 7 & 1.8 \\
@@ -49,13 +49,13 @@ The following tasks still remain for commissioning:
 \item Find the optical range for each channel - the minimal pulse is around pulse height setting 10,000. Find the actual minimal value and note the pulse integral observed in the PMT used, as well as the pulse integral when using the maximum value pulse height setting.
 \end{itemize}
 
-\subsubsection*{Analysis methods}
+\subsubsection*{Analysis}
 
 The calibration of the system is done in the lab. Experience shows, that once installed in the experiment, things change - generally both due to changes in the system as well as due to different routing and noise environment. Therefore, the system will need to be recalibrated, or at least verified in analysis.
 
-The following tasks are envisaged:
+This is ok, for the following reasons:
 \begin{itemize}
-\item 
-\item
-\item 
+\item The individual offsets can be obtained (or avoided) by using the overlap in light distributions from the different pulserheads. Using a bootstrap method, the entire system can be brought inline. There then only remains one overall offset, which can be determined by using a deployed source, or by calculating the time it takes for the light from LED to PMT (time-of-flight). 
+\item The absolute light level is not important. To obtain single photon mode, one must ensure that the occupancy is less than 5\% (i.e. less than 5\% of pulses produces a signal in the PMT). This ensures that, according to Poisson statistics, the number of times that two or more photons hit the PMT is less than 1\% of the total times that the PMT records data). 
+\item The light patterns that the LED array will generate will depend on the individual LED, as well as the exact geometry of the detector (including bubblers pipes). Therefore, the light levels that are needed to calibrate the timing (which has be in single photon mode) has to be assessed in-situ.
 \end{itemize}

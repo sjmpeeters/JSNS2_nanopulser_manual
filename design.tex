@@ -12,7 +12,7 @@ In this section, we discuss the overall layout of the system, the electronic and
 
 \subsection*{Overall design}
 
-The design is based on the initial proposal by Matsubara-san, with some modifications to ease installation and improve the coverage of the light on the PMT~array.
+The design is based on the initial proposal by Matsubara-san, with some modifications to ease installation and improve the coverage of the light on the PMT~array. The cables, electronics, and housing were manufactured by Interface2~Ltd.\cite{INTERFACE2}.
 
 \subsubsection*{System configuration}
 %
@@ -31,7 +31,7 @@ The cable exit the experiment through four flanges. The cables, made out of (exp
 \end{center}
 \end{figure}
 
-Table~\ref{table:cable_configuration} shows the overall configuration of the branches, as well as the branch and the pulserhead IDs.
+Table~\ref{table:cable_configuration} shows the overall configuration of the branches, as well as the branch and the pulserhead IDs. Furuta-san has produced a paper indicating the exact mounting pounts (REFERENCE TO BE INSERTED ONCE ON DOCDB).
 
 \begin{table}[h!]
   \begin{center}
@@ -52,11 +52,19 @@ Table~\ref{table:cable_configuration} shows the overall configuration of the bra
   \end{center}
 \end{table}
 
-\missing[inline]{Furuta-san: picture of LED mounting board}
-\missing[inline]{Furuta-san: coordinates of LEDs and associated PMT IDs (if available?)}
-\missing[inline]{Hino-san: picture of cable flange design}
-\missing[inline]{SJMP: Wavelength spectra for 420~nm and 355~nm LEDs}
-\missing[inline]{SJMP: Angular distribution for 420~nm and 355~nm LEDs}
+\begin{figure}
+\begin{center}	
+  \includegraphics[width=0.5\linewidth]{figures/branch.png}
+  \caption{A picture of one of the \jsns nanopulser branches.}
+  \label{figure:branch}
+\end{center}
+\end{figure}
+
+The cables for the branches are teflon-coated with four twisted-pairs wires inside, and a grounding shield. The connectors are Bulgin buccanneer 400~\cite{BULGIN}. The O-rings used are TRP White FFKM~\cite{TRP} (all the orignal connector O-rings were been replaced with FFKM O-rings). 
+
+All materials used in the branches (up to the junction box) have been shown to be compatible with LAB (see monthly meeting reports). 
+It has also been shown that the branches can be safely deployed into liquid, for up to 2~bar over pressure (at least).
+
 
 %
 % System configuration
@@ -82,12 +90,27 @@ Table~\ref{table:cable_configuration} shows the overall configuration of the bra
 \end{figure}
 
 Note that for transfer the maximum energy in a fast pulse, that we found that it is important that the legs of the LEDs are not shortened, but bend out to fit.
-\missing[inline]{RW: detailed schematic of the nanopulser head.}
+
+A detailed schematic is given in Appendix~\ref{app:schematics}. The glue used is in the assembly is Weldon~42~\cite{WELDON}.
+
+The LED emission (in air) was close to a Lambertian distribution~\cite{LAMBERTIAN}. This corresponds an opening angle of LEDs of approximately 30~degrees. However, this depends on the selection of light, and on the individual LEDs. 
+
+\begin{figure}
+\begin{center}	
+  \includegraphics[width=0.60\linewidth]{figures/355_nm_2.png}
+  \caption{The nominal optical pulse shape of the 355~nm pulserhead.}
+  \label{figure:355nmperf}
+  \includegraphics[width=0.60\linewidth]{figures/420_nm_2.png}
+  \caption{The nominal optical pulse shape of the 420~nm pulserhead.}
+  \label{figure:420nmperf}
+\end{center}
+\end{figure}
+
+\missing[inline]{SJMP: Wavelength spectra for 420~nm and 355~nm LEDs}
 
 %
 % Nanopulser head programming
 %
-
 \subsubsection*{Pulserhead programming}
 
 The Pulserheads are each programmed for a specific position on the branch and with its own unique ID (1-14). The programming can be done separately from the system, as shown in Figure~\ref{figure:pulserhead_programming}, with a custom cable providing the 9~V power for the PIC chip\footnote{Make sure the battery has enough power left to power the PIC chip.}. The code is loaded onto the PIC~chip via a commercial interface (microchip PICkit3) with a custom cable to the pulserhead. Note that, as shown in Figure~\ref{figure:pulserhead_programming}, the grey lead lines up with the arrow on the PICkit3 interface. On the other side, the green lead is closest to the LED on the pulserhead. The connector on the pulserhead is slanted an slightly bend, to make it fit into the pulserhead's acrylic housing. Therefore, take extra care when connecting to make sure a good contact is make.
@@ -162,7 +185,7 @@ The ethernet cables should {\bf never} be unplugged from the box, while the powe
 At the final installation, the cables should be wrapped with a tie wrap inside the junction box, to avoid damage to the connection by accidentally pull the cables. Note that the (longer) ground cable also needs to be connected to the junction box chassis (see Figure~\ref{figure:junction_box}).
 
 \subsection*{Trigger delay}
-When the slave board receives a `run' command, it outputs a (trigger) pulse, which is sent back to the control board. The time it takes to receive by the control board depends on the cable length. This pulse is internally delayed on the slave board before triggering the LED driver circuit. The delay is preset using two delay lines of step size 5~ns (called `course trigger delay') and 0.25~ns (called `fine trigger delay'). By matching the total delay to the cable length, the trigger pulse received at the control box (or beyond) can be made co-incident with the light pulse. The number of programmable steps is 255 for each delay line. Thus the maximum delay is 1,333.75~ns (1270~ns plus 63.75~ns).
+When the slave board receives a `run' command, it outputs a (trigger) pulse, which is sent back to the control board. The time it takes to receive by the control board depends on the cable length. This pulse is internally delayed on the slave board before triggering the LED driver circuit. The delay is preset using two delay lines of step size 5~ns (called `course trigger delay') and 0.25~ns (called `fine trigger delay'). By matching the total delay to the cable length, the trigger pulse received at the control box (or beyond) can be made co-incident with the light pulse. The number of programmable steps is 255 for each delay line. Thus the maximum delay is 1,338.75~ns (1275~ns plus 63.75~ns).
 
 %%%%%%%%%%
 % Nanopulser control  software
@@ -182,6 +205,6 @@ It takes the following arguments:\\
 \texttt{\textbf{-c}} - The pulserhead ID to pulse \newline
 \texttt{\textbf{-p}} - The pulse height for the driver board, this controls the intensity of each LED pulse. (Ranges from 0 to 16384)\newline
 \texttt{\textbf{-d}} - The delay between pulses in milliseconds \newline
-\texttt{\textbf{-n}} - Number of pulses. The number of pulses must be a multiple of 1000, up to 65,025 \fix{SJMP: check n pulses}\newline
+\texttt{\textbf{-n}} - Number of pulses. The number of pulses must be a multiple of 1000, up to 65,025
 \newline
-All arguments are required for this example scripts. (Note that continuous running is not possible for this system, but it is in the library. Also, the trigger and fibre delays are set to default values in this script.) The python scripts making up the control software contain more information on the possible commands.
+All arguments are required for this example scripts. (Note that continuous running is not possible for this system, but it is in the library. Also, the coarse and fine fibre delays are set to default values in this script.) The python scripts making up the control software provide detailed information on the possible commands.
