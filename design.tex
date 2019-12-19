@@ -19,20 +19,19 @@ The design is based on the initial proposal by Matsubara-san, with some modifica
 % System configuration
 %
 
-Figure~\ref{figure:controlbox} shows the overall layout of the system. The LEDs are mounted on next to the PMTs, on the boards holding them. The system consists of six `branches': a cable string with a data and power line that at certain intervals holds a `nanopulser head': an electronics board with digital logic and an ultra-fast LED pulser. Each string has either two or three nanopulser heads. In total, there are twelve nanopulser heads with a 420~nm LED and two nanopulser heads with a 355~nm LED (the 355~nm light will be absorbed almost immediately and emitted randomly in all directions as a longer wavelength). Each branch is terminated with a connector containing a 120~$\Omega$ resistor on the data line. 
+Figure~\ref{figure:controlbox} shows the overall layout of the system. The LEDs are mounted on next to the PMTs, on the boards holding them. The system consists of six `branches': a cable string with a data and power line that at certain intervals holds a `pulserhead': an electronics board with digital logic and an ultra-fast LED pulser. Each string has either two or three pulserheads. In total, there are twelve pulserheads with a 420~nm LED and two pulserheads with a 355~nm LED (the 355~nm light will be absorbed almost immediately and emitted randomly in all directions as a longer wavelength). Each branch is terminated with a connector containing a 120~$\Omega$ resistor on the data line. 
 
 The cable exit the experiment through four flanges. The cables, made out of (expensive) teflon coated cables are then connected to a junction box, where they connected to (cheap) 15~m long ethernet cables. These cables are connected to the nanopulser control box, located in the DAQ racks. The controller box talks to the DAQ via the network (ssh to the raspberry pi inside the controller box). The junction box is grounded and a ground cable connects to the controller box as well. The controller box also provides a trigger signal in-sync with the optical pulse. There are programmable delays that control the timing between the optical pulse and the trigger pulse for each of the pulserheads. 
 
 \begin{figure}
 \begin{center}	
   \includegraphics[width=0.75\linewidth]{figures/JSNS2_led_system_overview.pdf}
-  \caption{A schematic overview of the nanopulser optical calibration system. The (two) purple points indicate the position of the nanopulser heads (LED driver boards) with a 355~nm LED, the (twelve) blue points indicate nanopulser heads with a 420~nm LED. All LEDs point inwards. The numbers B1-B6 indicated the different branches. IV is the Inner Veto volume and ID is the Inner Detector volume.}
+  \caption{A schematic overview of the nanopulser optical calibration system. The (two) purple points indicate the position of the pulserheads (LED driver boards) with a 355~nm LED, the (twelve) blue points indicate pulserheads with a 420~nm LED. All LEDs point inwards. The numbers B1-B6 indicated the different branches. IV is the Inner Veto volume and ID is the Inner Detector volume.}
   \label{figure:controlbox}
 \end{center}
 \end{figure}
 
 Table~\ref{table:cable_configuration} shows the overall configuration of the branches, as well as the branch and the pulserhead IDs.
-
 
 \begin{table}[h!]
   \begin{center}
@@ -69,12 +68,12 @@ Table~\ref{table:cable_configuration} shows the overall configuration of the bra
 % Nanopulser head
 %%%%%%%%%%
 
-\subsection*{Nanopulser head}
+\subsection*{Pulserhead}
 
 \begin{figure}
 \begin{center}	
   \includegraphics[width=1.0\linewidth]{figures/pulserhead.jpg}
-  \caption{Photo of the a nanopulser head, outside of its acrylic housing, with the main components indicated.}
+  \caption{Photo of the a pulserhead, outside of its acrylic housing, with the main components indicated.}
   \label{figure:pulserhead}
   \includegraphics[width=0.75\linewidth]{figures/PulserTube2.jpg}
   \caption{Rendered drawing of the acrylic housing, with an O-ring (black in this image, but white in reality).}
@@ -89,12 +88,11 @@ Note that for transfer the maximum energy in a fast pulse, that we found that it
 % Nanopulser head programming
 %
 
-\subsubsection*{Nanopulser head programming}
+\subsubsection*{Pulserhead programming}
 
-The nanopulser heads are each programmed for a specific position on the branch and with its own unique ID (1-14). 
-The programming can be done separately from the system, as shown in Figure~\ref{figure:pulserhead_programming}, with a custom cable providing the 9~V power for the PIC chip\footnote{Make sure the battery has enough power left to power the PIC chip.}. The code is loaded onto the PIC~chip via a commercial interface (microchip PICkit3) with a custom cable to the nanopulser head. Note that, as shown in Figure~\ref{figure:pulserhead_programming}, the grey lead lines up with the arrow on the PICkit3 interface. On the other side, the green lead is closest to the LED on the nanopulser head. The connector on the nanopulser head is slanted an slightly bend, to make it fit into the nanopulser head's acrylic housing. Therefore, take extra care when connecting to make sure a good contact is make.
+The Pulserheads are each programmed for a specific position on the branch and with its own unique ID (1-14). The programming can be done separately from the system, as shown in Figure~\ref{figure:pulserhead_programming}, with a custom cable providing the 9~V power for the PIC chip\footnote{Make sure the battery has enough power left to power the PIC chip.}. The code is loaded onto the PIC~chip via a commercial interface (microchip PICkit3) with a custom cable to the pulserhead. Note that, as shown in Figure~\ref{figure:pulserhead_programming}, the grey lead lines up with the arrow on the PICkit3 interface. On the other side, the green lead is closest to the LED on the pulserhead. The connector on the pulserhead is slanted an slightly bend, to make it fit into the pulserhead's acrylic housing. Therefore, take extra care when connecting to make sure a good contact is make.
 
-The software for the nanopulser head programming can be found on github~\cite{GITHUB_PIC}. This contains a zip file (PICkit3.zip), which contains the windows compatible executable file PICkit3.exe, as well as other (required) input files for the program. It also contains the 14 hex files to be loaded onto the pulser: nanoSlaveTrig\_X.hex, where X is a letter from A-N. This corresponds to pulser ID 1-14, respectively, as shown in Table%~\ref{table:cabling_overview}
+The software for the pulserhead programming can be found on github~\cite{GITHUB_PIC}. This contains a zip file (PICkit3.zip), which contains the windows compatible executable file PICkit3.exe, as well as other (required) input files for the program. It also contains the 14 hex files to be loaded onto the pulser: nanoSlaveTrig\_X.hex, where X is a letter from A-N. This corresponds to pulser ID 1-14, respectively, as shown in Table%~\ref{table:cabling_overview}
  (i.e., A is for pulser head 1, etc.).
 
 The program PICkit3.exe is started by double-clicking (make sure the PICkit3 device is connected and recognised, otherwise the next step is not possible). Next, select the PIC chip to program: under menu `Device family', select {\bf MidRange}. Then, under `Device', select {\bf PIC16F88} (note there are a lot of models). If the set-up is correct, you can now read the PIC chip by pressing the 'Read' button. This take a little and a green progress bar will appear until the commend read has finished. This should change the hex values shown in Program Memory from their default values to all different values. 
@@ -104,12 +102,12 @@ If this was successful, load a hex file by clicking `Import Hex' from the `File'
 \begin{figure}
 \begin{center}	
   \includegraphics[width=1.0\linewidth]{figures/pulserhead_programming.jpg}
-  \caption{The pulser head programming set-up (window10 computer needed, not shown here).}
+  \caption{The pulserhead programming set-up (window10 computer needed, not shown here).}
   \label{figure:pulserhead_programming}
 \end{center}
 \end{figure}
 
-The perfomance of the nanopulser heads was documented on github\cite{GITHUB_TEST}, and is summarised in Figure~\ref{figure:pulserhead_output}.
+The perfomance of the pulserheads is documented on github\cite{GITHUB_TEST}, and is summarised in Figure~\ref{figure:pulserhead_output}.
 
 \begin{figure}
 \begin{center}	
@@ -131,7 +129,7 @@ The perfomance of the nanopulser heads was documented on github\cite{GITHUB_TEST
 \begin{figure}
 \begin{center}	
   \includegraphics[width=0.75\linewidth]{figures/controlbox.jpg}
-  \caption{Photo of the controlbox during commissioning at the University of Sussex, with the main components indicated. Note that all the fuses and connections can be accessed from the outside.}
+  \caption{Photo of the control box during commissioning at the University of Sussex, with the main components indicated. Note that all the fuses and connections can be accessed from the outside.}
   \label{figure:controlbox}
 \end{center}
 \end{figure}
@@ -139,13 +137,9 @@ The perfomance of the nanopulser heads was documented on github\cite{GITHUB_TEST
 
 One symptom of a blown fuse can be that  the pulser does communicate but either does not produce light, or produces a wide pulse (of the order of 100~ns).
 
-\missing[inline]{RW: detailed schematic of the control box}
-
 \subsection*{Cable design}
 
-The ethernet cables should {\bf never} be unplugged from the box, while the power is on, as the power for both the digital electronics, as well as for the pulser circuits runs through them. Accidental hot-swapping can result in one of the fuses blowing. 
-
-\missing[inline]{SJMP: insert cable design, aging results}
+The ethernet cables should {\bf never} be unplugged from the box, while the power is on, as the power for both the digital electronics, as well as for the pulser circuits runs through them. Note: accidental hot-swapping can result in one of the fuses blowing. Therefore, always power the system off before connecting or disconnecting the ethernet cables to the control box.
 
 \subsection*{Junction box}
 
@@ -165,10 +159,10 @@ The ethernet cables should {\bf never} be unplugged from the box, while the powe
 \end{center}
 \end{figure}
 
-At the final installation, the cables should be wrapped with a tie wrap inside the junction box, to avoid damage to the connection by accidentally pull the cables. Not that the (longer) ground cable also needs to be connected to the junction box chassis (see Figure~\ref{figure:junction_box}).
+At the final installation, the cables should be wrapped with a tie wrap inside the junction box, to avoid damage to the connection by accidentally pull the cables. Note that the (longer) ground cable also needs to be connected to the junction box chassis (see Figure~\ref{figure:junction_box}).
 
 \subsection*{Trigger delay}
-When the slave board receives a `run' command, it outputs a (trigger) pulse, which is sent back to the control board. The time it takes to receive by the control board depends on the cable length. This pulse is internally delayed on the slave board before triggering the LED driver circuit. The delay is preset using two delay lines of step size 5~ns (called `trigger delay') and 0.25~ns (called `fibre delay'). By matching the total delay to the cable length, the trigger pulse received at the control box (or beyond) can be made co-incident with the light pulse. The number of programmable steps is 255 for each delay line. Thus the maximum delay is 1,338.72~ns (1275~ns plus 63.75~ns).
+When the slave board receives a `run' command, it outputs a (trigger) pulse, which is sent back to the control board. The time it takes to receive by the control board depends on the cable length. This pulse is internally delayed on the slave board before triggering the LED driver circuit. The delay is preset using two delay lines of step size 5~ns (called `course trigger delay') and 0.25~ns (called `fine trigger delay'). By matching the total delay to the cable length, the trigger pulse received at the control box (or beyond) can be made co-incident with the light pulse. The number of programmable steps is 255 for each delay line. Thus the maximum delay is 1,333.75~ns (1270~ns plus 63.75~ns).
 
 %%%%%%%%%%
 % Nanopulser control  software
