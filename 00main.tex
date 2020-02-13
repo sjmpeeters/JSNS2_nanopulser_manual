@@ -11,8 +11,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newif\ifdraft
-\draftfalse
-%\drafttrue
+%\draftfalse
+\drafttrue
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PACKAGE IMPORTS
@@ -32,7 +32,7 @@
 \usepackage{xspace} % for dynamic spaces (e.g. none before a colon, ...)
 
 \ifdraft
-\usepackage{draftwatermark} % set watermark
+%\usepackage{draftwatermark} % set watermark
 \usepackage{lineno} % line numbers
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 \fi
@@ -53,8 +53,8 @@
 % Set watermark and linenumbers
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ifdraft
- \SetWatermarkText{DRAFT}
- \SetWatermarkScale{1.0}
+ %\SetWatermarkText{DRAFT}
+ %\SetWatermarkScale{1.0}
  \linenumbers
 \fi
 
@@ -81,7 +81,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{abstract}
-This note describes the the \jsns nanopulser optical calibration system. The document discusses the requirements, design, testing, as well as the control software and the operation. This is a live document and should be updated as the system expands.
+This note describes the the \jsns nanopulser optical calibration system. The document discusses the requirements, design, testing, as well as the control software and the operation. This is a live document and should be updated as the system expands\cite{GITHUB_DOC}.
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -129,7 +129,7 @@ This note describes the the \jsns nanopulser optical calibration system. The doc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Bibliography
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\newpage
 \bibliography{nanopulser}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

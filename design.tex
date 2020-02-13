@@ -31,7 +31,9 @@ The cable exit the experiment through four flanges. The cables, made out of (exp
 \end{center}
 \end{figure}
 
-Table~\ref{table:cable_configuration} shows the overall configuration of the branches, as well as the branch and the pulserhead IDs. Furuta-san has produced a paper indicating the exact mounting pounts (REFERENCE TO BE INSERTED ONCE ON DOCDB).
+Table~\ref{table:cable_configuration} shows the overall configuration of the branches, as well as the branch and the pulserhead IDs. Furuta-san has produced a paper indicating the exact mounting pounts.
+
+\fix[inline]{SJMP: add docdb entry for Furuta-san's document, once on docdb}
 
 \begin{table}[h!]
   \begin{center}
@@ -106,7 +108,24 @@ The LED emission (in air) was close to a Lambertian distribution~\cite{LAMBERTIA
 \end{center}
 \end{figure}
 
-\missing[inline]{SJMP: Wavelength spectra for 420~nm and 355~nm LEDs}
+The wavelength distribution of the LEDs is reasonably well described by a `double Gaussian', with a mean of either 355~nm or 420~nm, and a lower sigma of 10~nm and a higher sigma of 15~nm. The exact spectra is given in Figures~\ref{figure:355nmspec}~and~\ref{figure:420nmspec}. (The input data for these figures is provided in \label{app:led_spectra} for reference.)
+
+%
+% Data in:
+% C:\Users\sjp39\OneDrive - University of Sussex\20 RESEARCH\JSNS2\LED system\Design documents
+% 5mmLED_SprectralPlots.xlsx, analysed with plot_spectra.ipynb
+%
+
+\begin{figure}
+\begin{center}	
+  \includegraphics[width=0.60\linewidth]{figures/led_uv.png}
+  \caption{The optical spectrum of the 355~nm pulserhead.}
+  \label{figure:355nmspec}
+  \includegraphics[width=0.60\linewidth]{figures/led_blue.png}
+  \caption{The optical spectrum of the 420~nm pulserhead.}
+  \label{figure:420nmspec}
+\end{center}
+\end{figure}
 
 %
 % Nanopulser head programming
@@ -136,12 +155,10 @@ The perfomance of the pulserheads is documented on github\cite{GITHUB_TEST}, and
 \begin{center}	
   \includegraphics[width=0.48\linewidth]{figures/PhotonCounts420nm.pdf}
   \includegraphics[width=0.48\linewidth]{figures/PhotonCounts355nm.pdf}
-  \caption{The optical output of the pulserheads with 420~nm LEDs (left) and 355~nm LEDs (right). The x-axis is the digital setting used for the measurements. Most of the range is observed with a calibrated optical power meter. At the low end, however, this device was not sensitive enough and a careful extrapolation based on measurement using a PMT is shown. T}
+  \caption{The optical output of the pulserheads with 420~nm LEDs (left) and 355~nm LEDs (right). The x-axis is the digital setting used for the measurements. Most of the range is observed with a calibrated optical power meter. At the low end, however, this device was not sensitive enough and a careful extrapolation based on measurement using a PMT is shown.}
   \label{figure:pulserhead_output}
 \end{center}
 \end{figure}
-
-\missing[inline]{SJMP: insert pressure test results}
 
 %%%%%%%%%%
 % Nanopulser control box
@@ -156,7 +173,7 @@ The perfomance of the pulserheads is documented on github\cite{GITHUB_TEST}, and
   \label{figure:controlbox}
 \end{center}
 \end{figure}
-\fix[inline]{RW,SJMP: check control lights and add information on meaning.}
+\missing[inline]{RW,SJMP: check control lights and add information on meaning.}
 
 One symptom of a blown fuse can be that  the pulser does communicate but either does not produce light, or produces a wide pulse (of the order of 100~ns).
 
