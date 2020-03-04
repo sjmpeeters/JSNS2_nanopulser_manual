@@ -205,6 +205,14 @@ The ethernet cables should {\bf never} be unplugged from the box, while the powe
 
 At the final installation, the cables should be wrapped with a tie wrap inside the junction box, to avoid damage to the connection by accidentally pull the cables. Note that the (longer) ground cable also needs to be connected to the junction box chassis (see Figure~\ref{figure:junction_box}).
 
+The complication are that there are four white wires, one for each twisted pair. 
+If the association between white and coloured wire pairing is lost, this can be recovered in the following way, using a resistance measurement:
+\begin{enumerate}
+\item Check for a short circuit between any two of the white wires. When found these are the ones associated with the green and orange wires. As they are both grounded these white wires can be safely interchanged.
+\item Now check from the resistance between the brown and each of the remaining two white wires. when you see a resistance of approximately 120~$\Omega$, you have found the white wire, associated with the brown wire.
+\item The remaining wire is the associated with the black wire.
+\end{enumerate}
+
 \subsection*{Trigger delay}
 When the slave board receives a `run' command, it outputs a (trigger) pulse, which is sent back to the control board. The time it takes to receive by the control board depends on the cable length. This pulse is internally delayed on the slave board before triggering the LED driver circuit. The delay is preset using two delay lines of step size 5~ns (called `course trigger delay') and 0.25~ns (called `fine trigger delay'). By matching the total delay to the cable length, the trigger pulse received at the control box (or beyond) can be made co-incident with the light pulse. The number of programmable steps is 255 for each delay line. Thus the maximum delay is 1,338.75~ns (1275~ns plus 63.75~ns).
 
